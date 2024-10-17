@@ -17,3 +17,14 @@ function solution(arr) {
     }
     return answer.length > 0 ? answer : [-1];
 }
+
+// function solution(arr) {
+//     const minValue = Math.min(...arr);
+//     const answer = [];
+//     for (let i = 0; i < arr.length; i++) {
+//         if (arr[i] !== minValue) {
+//             answer.push(arr[i]);
+//         }
+//     }
+//     return answer.length > 0 ? answer : [-1];
+// }
