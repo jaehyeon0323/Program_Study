@@ -1,2 +1,0 @@
-# Algo
-Algo - Programmers
