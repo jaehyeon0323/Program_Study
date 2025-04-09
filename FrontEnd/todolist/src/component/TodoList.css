@@ -7,6 +7,7 @@
   box-sizing: border-box;
   padding-top: 15px;
   padding-bottom: 15px;
+  
 }
 
 .TodoList
@@ -14,3 +15,6 @@
   outline: none;
   border-bottom: 1px solid #1f93ff;
 }
+
+.TodoList
+.list_wrapper{}
