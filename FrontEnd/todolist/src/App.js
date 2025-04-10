@@ -1,8 +1,9 @@
 import './App.css';
-import { Header } from './component/Header';
+import Header from './component/Header';
+// import { TestComp } from './component/TestComp';
 import { TodoEditor } from './component/TodoEditor';
 import { TodoList } from './component/TodoList';
-import { useRef, useState } from "react";
+import React, { useCallback, useReducer, useRef } from "react";
 
 const mockTodo = [
   {
@@ -25,35 +26,71 @@ const mockTodo = [
   },
 ]
 
+export const TodoContext = React.createContext();
+
+export const reducer = (state, action) => {
+  switch(action.type){
+    case "CREATE": {
+      return [action.newItem,...state];
+    }
+    case "UPDATE": {
+      return state.map((it) => 
+        it.id === action.targetId
+        ?{
+          ...it,
+          isDone:!it.isDone,
+        }
+        : it
+    );
+    }
+    case "DELETE": {
+      return state.filter((it) => it.id !== action.targetId);
+    }
+    default:
+      return state;
+}
+}
+
+
 function App() {
-  const [todo, setTodo] = useState(mockTodo);
+  const [todo, dispatch] = useReducer(reducer, mockTodo);
   const idRef = useRef(3);
 
-  const onCeate = (content)=>{
-    const newItem = {
-      id: idRef.current,
-      content,
-      isDone : false,
-      createdDate: new Date().getDate(),
-    };
-    setTodo([newItem, ...todo]);
+  const onCreate = (content)=>{
+    dispatch({
+      type: "CREATE",
+      newItem: {
+        id: idRef.current,
+        content,
+        isDone: false,
+        createdDate: new Date().getTime(),
+      },
+    })
     idRef.current +=1;
   }
 
-  const onUpdate = (targetId) =>{
-    setTodo(todo.map((it) =>
-      it.id === targetId ? {...it, isDone: !it.isDone} : it
-    ))}
+  const onUpdate = useCallback((targetId) =>{
+    dispatch({
+      type: "UPDATE",
+      targetId,
+    });
+  },[]);
 
-  const onDelete = (targetId) => {
-    setTodo(todo.filter((it) => it.id !==targetId))
-  }
+  const onDelete = useCallback((targetId) => {
+    dispatch({
+      type: "DELETE",
+      targetId,
+    })
+  },[]);
 
   return (
     <div className="App">
+      {/* <TestComp /> */}
       <Header />
-      <TodoEditor onCeate = {onCeate} />
-      <TodoList todo = {todo} onUpdate = {onUpdate} onDelete = {onDelete}/>
+      <TodoContext.Provider value={{todo, onCreate, onUpdate, onDelete}}>
+        <TodoEditor/>
+        <TodoList/>
+      </TodoContext.Provider>      
     </div>
   );
 }

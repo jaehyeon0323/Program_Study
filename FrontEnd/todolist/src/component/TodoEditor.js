@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import './TodoEditor.css';
+import { TodoContext } from '../App';
 
-export const TodoEditor = ({onCeate}) => {
+export const TodoEditor = () => {
   const [content, setContent] = useState("");
   const inputRef = useRef();
+  const { onCreate } = useContext(TodoContext);
 
   const onChangContent = (e) =>{
     setContent(e.target.value);
@@ -14,7 +16,7 @@ export const TodoEditor = ({onCeate}) => {
       inputRef.current.focus();
       return;
     }
-    onCeate(content);
+    onCreate (content);
     setContent("");
   }
 
