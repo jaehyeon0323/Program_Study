@@ -17,4 +17,8 @@
 }
 
 .TodoList
-.list_wrapper{}
+.list_wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
