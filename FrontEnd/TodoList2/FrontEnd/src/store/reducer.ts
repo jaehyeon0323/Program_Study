@@ -6,7 +6,8 @@ export const reducer = (state: TodoItemProps[], action: Action): TodoItemProps[]
       return action.todoList;
 
     case 'CREATE':
-      return [action.newItem, ...state];
+      return [...state, action.newItem];
+
     case 'UPDATE':
       return state.map((it) =>
         it.id === action.targetId ? { ...it, isDone: !it.isDone } : it

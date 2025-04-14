@@ -27,11 +27,14 @@ export type updateTodoItemDto= {
   id: number;
   isDone: boolean;
   content: string;
-  createdDate: number;
+  createdDate: string;
 }
 
-export const updateTodoItem = async (id: number, dto: Partial<updateTodoItemDto>
-): Promise<updateTodoItemDto> => {
+export const updateTodoItem = async (id: number, dto: updateTodoItemDto): Promise<updateTodoItemDto> => {
   const response = await axiosInstance.put(`/TodoList/${id}`, dto);
   return response.data;
+};
+
+export const deleteTodoList = async (id: number): Promise<void> => {
+  await axiosInstance.delete(`/TodoList/${id}`);
 };

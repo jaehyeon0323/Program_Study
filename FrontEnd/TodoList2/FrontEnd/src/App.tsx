@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useReducer } from 'react';
 import { reducer } from './store/reducer';
 import { TodoStateContext, TodoDispatchContext } from './store/context'
 import { TodoDispatches } from './store/types';
-import { createTodoList, getTodoList, updateTodoItem } from './api/TodoApi';
+import { createTodoList, deleteTodoList, getTodoList, updateTodoItem } from './api/TodoApi';
 
 
 function App() {
@@ -48,29 +48,42 @@ function App() {
   };
 
   const onUpdate = useCallback((targetId: number): void => {
-    const target = todo.find((t) => t.id === targetId);
+    const target = todo.find(t => t.id === targetId);
     if (!target) return;
   
-    updateTodoItem(targetId, {
-      ...target,
+    const updatedItem = {
+      id: target.id,
+      content: target.content,
       isDone: !target.isDone,
-    })
-      .then((updatedItem) => {
-        dispatch({
-          type: 'UPDATE',
-          targetId: updatedItem.id,
-        });
+      createdDate: new Date(target.createdDate).toISOString(),
+    };
+  
+    updateTodoItem(targetId, updatedItem)
+      .then(() => {
+        dispatch({ type: 'UPDATE', targetId });
       })
       .catch((err) => {
         console.error('업데이트 실패', err);
-        alert('수정 실패');
+        alert('업데이트 실패');
       });
   }, [todo]);
-
+  
   const onDelete = useCallback((targetId: number): void => {
-    dispatch({ type: 'DELETE', targetId });
+    const confirmDelete = window.confirm('정말 삭제하시겠습니까?');
+    if (!confirmDelete) return;
+  
+    deleteTodoList(targetId)
+      .then(() => {
+        dispatch({ type: 'DELETE', targetId });
+        alert('삭제 성공');
+      })
+      .catch((err) => {
+        console.error('삭제 실패', err);
+        alert('삭제 실패');
+      });
   }, []);
-
+  
+  
   const memoizedDispatches: TodoDispatches = useMemo(
     () => ({ onCreate, onUpdate, onDelete }),[]);
 
