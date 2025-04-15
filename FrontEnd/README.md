@@ -31,13 +31,27 @@
     3) api 통신_Axios
       npm install axios
     4) 라우팅_React Router v6
-      npm install react-router-dom
+      웹: npm install react-router-dom
+      모바일: npm install react-router-native
+
     5) 날짜 라이브러리
       npm install dayjs
     6) 폼관리_react-hook-form + yup 
       npm install react-hook-form @hookform/resolvers yup
 
   4. 개발 효율을 높이는 설정
+    ** 서버 설정
+        server: {
+        open: true, // 브라우저 자동 실행 설정
+        proxy: {
+          '/api': {
+            target: 'https://localhost:7063', // .NET API 서버 주소
+            changeOrigin: true,
+            secure: false, // 인증서 사용 시 false (개발용)
+          },
+        },
+      },
+    
     1) 절대 경로 설정
       typescript는 path설정 필요: npm install -D @types/node
       import { defineConfig } from 'vite'
@@ -122,16 +136,6 @@
       },
     }  
 
-  5. BackEnd에서 같이 띄우기
-    프론트 프로젝트의 "name.esproj", 아래 세팅해야 vscode에서 프로젝트로 인식
-    <Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.1738743">
-    <PropertyGroup>
-    <StartupCommand>npm run dev</StartupCommand>
-    <JavaScriptTestRoot>src\</JavaScriptTestRoot>
-    <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
-    <!-- Allows the build (or compile) script located on package.json to run on Build -->
-    <ShouldRunBuildScript>false</ShouldRunBuildScript>
-    <!-- Folder where production build objects will be placed -->
-    <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
-    </PropertyGroup>
-    </Project>
+## 개발 세팅
+  1. Fonts 설정
+    fonts.google.com

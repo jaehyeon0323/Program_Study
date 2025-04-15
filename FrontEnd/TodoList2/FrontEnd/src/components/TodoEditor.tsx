@@ -2,7 +2,7 @@ import { useContext, useRef, useState } from 'react';
 import './TodoEditor.css';
 import { TodoDispatchContext } from '../store/context';
 import { useTodoDispatch } from '../hooks/useTodo';
-import { InputChangeEvent, KeyboardInputEvent } from '../tpyes/react-events';
+import { InputChangeEvent, KeyboardInputEvent } from '../types/react-events';
 
 export const TodoEditor = () => {
   const [content, setContent] = useState<string>('');

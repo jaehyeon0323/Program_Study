@@ -2,7 +2,7 @@ import { TodoItem }  from './TodoItem';
 import { useMemo, useState} from 'react';
 import './TodoList.css'
 import { useTodoState } from '../hooks/useTodo';
-import { InputChangeEvent } from '../tpyes/react-events';
+import { InputChangeEvent } from '../types/react-events';
 
 export const TodoList = () =>{
   const  todo  = useTodoState();
