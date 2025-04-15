@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Editor.css';
 import { emtionList, getFormattedDate } from '../util/util';
 import { InputChangeEvent, TextAreaChangeEvent } from '../types/react-events';
@@ -42,6 +42,15 @@ export const Editor = ({ initData, onSubmit }) => {
   const handleSubmit = () => {
     onSubmit(state);
   }
+  
+  useEffect(() => {
+    if(initData){
+      setState({
+        ...initData,
+        date: getFormattedDate(new Date(parseInt(initData))),
+      });
+    } 
+  },[initData])
 
   return(
     <div className='Editor'>
